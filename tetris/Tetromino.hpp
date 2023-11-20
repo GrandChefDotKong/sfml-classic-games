@@ -8,29 +8,33 @@
   #include <utility>
   
   enum TetrominoType { I, O, T, J, L, S, Z };
-  enum Movement { LEFT = -1, RIGHT = 1, DOWN, ROTATE };
+  enum Movement { LEFT = -1, IDDLE, RIGHT = 1, DOWN, ROTATE };
 
   const int numberOfBlocks = 4;
   const int numberOfTetromino = 7;
+  const int mapLines = 20;
+  const int mapColumns = 10;
+  const int blockSize = 32;
 
   class Tetromino {
 
     public:
-      static int TetrominoCollection[numberOfTetromino][numberOfBlocks];
+      static int tetrominoCollection[numberOfTetromino][numberOfBlocks];
+      static sf::Color tetrominoColor[numberOfTetromino];
 
       Tetromino(TetrominoType type);
 
       void rotate();
       void move(Movement direction);
+      bool checKcollision(int grid[mapLines][mapColumns]);
 
-      virtual void update();
-      virtual void draw();
+      virtual void update(Movement direction);
+      virtual void draw(sf::RenderWindow* window);
       virtual ~Tetromino(); 
 
     private:
       TetrominoType m_type;
       sf::Vector2i m_position[numberOfBlocks];
-      
   };
 
 #endif

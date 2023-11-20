@@ -5,6 +5,7 @@
   #include <string>
   #include <iostream>
   #include <SFML/Graphics.hpp>
+  #include "Tetromino.hpp"
 
   class Game {
 
@@ -22,6 +23,9 @@
     private:
       bool m_isRunning;
       sf::RenderWindow* m_window;
+
+      Tetromino* m_currentTetromino;
+      int m_grid[mapLines][mapColumns] = {};
   };
 
 #endif
