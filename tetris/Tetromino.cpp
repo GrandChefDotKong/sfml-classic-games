@@ -21,16 +21,16 @@
   };
   
   Tetromino::Tetromino(TetrominoType type): m_type(type) {
-
     for (int i = 0; i < 4; ++i) {
       this->m_position[i].x = Tetromino::tetrominoCollection[m_type][i] % 2;
       this->m_position[i].y = Tetromino::tetrominoCollection[m_type][i] / 2;
     }
-
   }
 
   void Tetromino::move(Movement direction) {
     for (int i = 0; i < numberOfBlocks; ++i)  { 
+      this->m_previousPosition[i] = this->m_position[i];
+
       if(direction == Movement::DOWN) {
         this->m_position[i].y += 1; 
       } else {
@@ -52,7 +52,6 @@
   }
 
   void Tetromino::update(Movement direction) {
-
     if (direction == Movement::ROTATE) {
       this->rotate();
       return;
@@ -62,8 +61,21 @@
 
   }
 
-  void Tetromino::draw(sf::RenderWindow* window) {
+  sf::Vector2i Tetromino::getPositionAtIndex(int index) {
+    return this->m_position[index];
+  }
 
+  TetrominoType Tetromino::getType() {
+    return this->m_type;
+  }
+
+  void Tetromino::returnPreviousPosition() {
+    for(int i = 0; i < numberOfBlocks; ++i) {
+      this->m_position[i] = this->m_previousPosition[i]; 
+    }
+  }
+
+  void Tetromino::draw(sf::RenderWindow* window) {
     for (int i=0; i < numberOfBlocks ; ++i) {
 
       sf::RectangleShape block(sf::Vector2f(blockSize, blockSize));
@@ -72,21 +84,6 @@
 
       window->draw(block);
     }
-  }
-
-  bool Tetromino::checKcollision(int grid[mapLines][mapColumns]) {
-    for (int i = 0; i < numberOfBlocks; ++i) {
-      if (this->m_position[i].x < 0 || 
-      this->m_position[i].x >= mapLines || 
-      this->m_position[i].y >= mapColumns) {
-        return true;
-      }
-      if (grid[this->m_position[i].y][this->m_position[i].x]) {
-        return true;;
-      }
-    }
-
-    return false;
   }
 
   Tetromino::~Tetromino() {

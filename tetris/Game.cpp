@@ -6,7 +6,7 @@ Game::Game() : m_isRunning(false) {
 
 void Game::initialize() {
   this->m_window = 
-    new sf::RenderWindow(sf::VideoMode(blockSize * 10, blockSize * 20), "SFML works!");
+    new sf::RenderWindow(sf::VideoMode(blockSize * mapColumns, blockSize * mapLines), "SFML works!");
   this->m_window->setFramerateLimit(60);
 
   std::cout << "game controller initialization OK !" << std::endl;
@@ -22,7 +22,7 @@ void Game::start() {
 void Game::update() {
 
   sf::Clock clock;
-  float timer = 0, delay = 0.16;
+  float timer = 0, delay = 0.8;
   bool keyPressed(false);
   Movement direction = Movement::IDDLE;
   
@@ -56,22 +56,72 @@ void Game::update() {
         event.key.code==sf::Keyboard::Left ||
         event.key.code==sf::Keyboard::Right) {
           keyPressed = false;
-          direction = Movement::IDDLE;
         }
       }
     }
 
     if(timer > delay) {
       this->m_currentTetromino->move(Movement::DOWN);
+      if(this->checKCollision()) {
+        for (int i = 0; i < 4; ++i) {
+          this->m_currentTetromino->returnPreviousPosition();
+          this->m_grid[this->m_currentTetromino->getPositionAtIndex(i).y][this->m_currentTetromino->getPositionAtIndex(i).x] = this->m_currentTetromino->getType();
+        }
+        
+        this->checkLine();
+
+        TetrominoType random = TetrominoType(rand() % 7);
+
+        this->m_currentTetromino = new Tetromino(random);
+      }
       timer = 0;
     }
 
     if(!keyPressed) {
       this->m_currentTetromino->update(direction);
+
+      if(this->checKCollision()) {
+        this->m_currentTetromino->returnPreviousPosition();
+      }
+
       keyPressed = true;
     }
 
+    
+
     this->draw();
+  }
+}
+
+bool Game::checKCollision() {
+  for (int i = 0; i < numberOfBlocks; ++i) {
+    if (this->m_currentTetromino->getPositionAtIndex(i).x < 0 || 
+    this->m_currentTetromino->getPositionAtIndex(i).x >= mapColumns || 
+    this->m_currentTetromino->getPositionAtIndex(i).y >= mapLines) {
+      return true;
+    }
+    if (this->m_grid[this->m_currentTetromino->getPositionAtIndex(i).y][this->m_currentTetromino->getPositionAtIndex(i).x]) {
+      return true;
+    }
+  }
+
+  return false; 
+}
+
+void Game::checkLine() {
+  int k = mapLines - 1;
+    for (int i = k; i > 0; --i) {
+      int count = 0;
+      for (int j = 0; j < mapColumns; ++j) {
+          if (this->m_grid[i][j] != 0) {
+            count++;
+          }
+
+          this->m_grid[k][j] = this->m_grid[i][j];
+      }
+      if (count < mapColumns) {
+        --k;
+      }
   }
 }
 
@@ -79,6 +129,21 @@ void Game::draw() {
     m_window->clear(sf::Color::White);
 
     this->m_currentTetromino->draw(this->m_window);
+    for (int i = 0; i < mapLines ; ++i) {
+      for (int j = 0; j < mapColumns; ++j) {
+        if (this->m_grid[i][j] == 0) { 
+          continue;
+        }
+
+        sf::RectangleShape block(sf::Vector2f(blockSize, blockSize));
+
+        block.setPosition(j * blockSize, i * blockSize);
+        block.setFillColor(Tetromino::tetrominoColor[this->m_grid[i][j]]);
+
+
+        this->m_window->draw(block);
+      }
+    }
 
     m_window->display();
 }

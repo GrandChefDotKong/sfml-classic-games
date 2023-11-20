@@ -13,7 +13,7 @@
   const int numberOfBlocks = 4;
   const int numberOfTetromino = 7;
   const int mapLines = 20;
-  const int mapColumns = 10;
+  const int mapColumns = 12;
   const int blockSize = 32;
 
   class Tetromino {
@@ -26,7 +26,10 @@
 
       void rotate();
       void move(Movement direction);
-      bool checKcollision(int grid[mapLines][mapColumns]);
+
+      sf::Vector2i getPositionAtIndex(int index);
+      TetrominoType getType();
+      void returnPreviousPosition();
 
       virtual void update(Movement direction);
       virtual void draw(sf::RenderWindow* window);
@@ -35,6 +38,7 @@
     private:
       TetrominoType m_type;
       sf::Vector2i m_position[numberOfBlocks];
+      sf::Vector2i m_previousPosition[numberOfBlocks];
   };
 
 #endif

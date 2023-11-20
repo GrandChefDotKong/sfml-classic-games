@@ -15,6 +15,9 @@
       void start();
       void stop();
       void initialize();
+      
+      bool checKCollision();
+      void checkLine();
 
       virtual void update();
       virtual void draw();
@@ -25,7 +28,7 @@
       sf::RenderWindow* m_window;
 
       Tetromino* m_currentTetromino;
-      int m_grid[mapLines][mapColumns] = {};
+      int m_grid[mapLines][mapColumns] = {0};
   };
 
 #endif
