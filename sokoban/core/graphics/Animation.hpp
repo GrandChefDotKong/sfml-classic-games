@@ -7,7 +7,7 @@
   #include <SFML/System/Time.hpp>
   #include <SFML/Graphics/RenderTarget.hpp>
   #include <SFML/System/Clock.hpp>
-  #include "State.hpp"
+  #include "./../../abstract/State.hpp"
 
 class Animation : public State {
   public:

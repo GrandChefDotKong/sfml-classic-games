@@ -5,7 +5,7 @@
   #include <string>
   #include "State.hpp"
 
-  class StateMachine {
+  class StateMachine : public GameObject {
     public:
       StateMachine();
       void addState(std::string state_name, State& state);
@@ -16,5 +16,13 @@
       std::map<std::string, State*> m_states;
       std::string m_currentState;
   };
+  
+  StateMachine::StateMachine() { };
+
+  void StateMachine::addState(std::string stateName, State& state) {
+    this->m_states.insert({ stateName, &state });
+  };
+
+  StateMachine::~StateMachine() { };
 
 #endif

@@ -5,8 +5,7 @@
   #include <string>
   #include <iostream>
   #include <SFML/Graphics.hpp>
-  #include "StateMachine.hpp"
-  #include "State.hpp"
+  #include "abstract/StateMachine.hpp"
   //#include "TextureManager.hpp"
   #include "Character.hpp"
 
