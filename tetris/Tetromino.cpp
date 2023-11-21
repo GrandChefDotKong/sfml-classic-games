@@ -22,7 +22,7 @@
   
   Tetromino::Tetromino(TetrominoType type): m_type(type) {
     for (int i = 0; i < 4; ++i) {
-      this->m_position[i].x = Tetromino::tetrominoCollection[m_type][i] % 2;
+      this->m_position[i].x = Tetromino::tetrominoCollection[m_type][i] % 2 + mapColumns/2;
       this->m_position[i].y = Tetromino::tetrominoCollection[m_type][i] / 2;
     }
   }
@@ -81,6 +81,8 @@
       sf::RectangleShape block(sf::Vector2f(blockSize, blockSize));
       block.setPosition(this->m_position[i].x * blockSize, this->m_position[i].y * blockSize);
       block.setFillColor(Tetromino::tetrominoColor[this->m_type]);
+      block.setOutlineThickness(1.f);
+      block.setOutlineColor(sf::Color::Black);
 
       window->draw(block);
     }

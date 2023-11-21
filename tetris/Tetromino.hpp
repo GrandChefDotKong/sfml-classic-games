@@ -10,6 +10,7 @@
   enum TetrominoType { I, O, T, J, L, S, Z };
   enum Movement { LEFT = -1, IDDLE, RIGHT = 1, DOWN, ROTATE };
 
+  const int EMPTY = 0;
   const int numberOfBlocks = 4;
   const int numberOfTetromino = 7;
   const int mapLines = 20;

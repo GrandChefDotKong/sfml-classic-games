@@ -6,6 +6,7 @@
   #include <iostream>
   #include <SFML/Graphics.hpp>
   #include "Tetromino.hpp"
+  #include "Grid.hpp"
 
   class Game {
 
@@ -17,7 +18,7 @@
       void initialize();
       
       bool checKCollision();
-      void checkLine();
+      void generateNewTetromino();
 
       virtual void update();
       virtual void draw();
@@ -28,7 +29,7 @@
       sf::RenderWindow* m_window;
 
       Tetromino* m_currentTetromino;
-      int m_grid[mapLines][mapColumns] = {0};
+      Grid* m_grid;
   };
 
 #endif
