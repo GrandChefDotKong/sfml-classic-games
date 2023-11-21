@@ -16,6 +16,25 @@ void Grid::update() {
 }
 
 void Grid::draw(sf::RenderWindow* window) {
+  
+  for (int i = 0; i < m_numberColumns ; ++i) {
+    sf::Vertex line[] = {
+      sf::Vertex(sf::Vector2f(i * blockSize, 0.f)),
+      sf::Vertex(sf::Vector2f(i * blockSize, m_numberLines * blockSize))
+    };
+
+    window->draw(line, 2, sf::Lines);
+  }
+  
+  for (int i = 0; i < m_numberLines ; ++i) {
+    sf::Vertex line[] = {
+      sf::Vertex(sf::Vector2f(0.f, i * blockSize)),
+      sf::Vertex(sf::Vector2f(m_numberColumns * blockSize, i * blockSize))
+    };
+
+    window->draw(line, 2, sf::Lines);
+  }
+
   for (int i = 0; i < m_numberLines ; ++i) {
     for (int j = 0; j < m_numberColumns; ++j) {
       if (this->m_grid[i*m_numberColumns + j] == EMPTY) { 
@@ -27,45 +46,51 @@ void Grid::draw(sf::RenderWindow* window) {
       block.setPosition(j * blockSize, i * blockSize);
       block.setFillColor(Tetromino::tetrominoColor[this->m_grid[i * m_numberColumns + j]]);
       block.setOutlineThickness(1.f);
-      block.setOutlineColor(sf::Color::Black);
+      block.setOutlineColor(sf::Color::White);
       window->draw(block);
     }
   }
 }
 
 void Grid::checkLine() {
-  int k = mapLines - 1;
+  int k = m_numberLines - 1;
 
   for (int i = k; i > 0; --i) {
     int count = 0;
 
-    for (int j = 0; j < mapColumns; ++j) {
-      if (this->m_grid[i * mapColumns + j] != 0) {
+    for (int j = 0; j < m_numberColumns; ++j) {
+      if (this->m_grid[i * m_numberColumns + j] != EMPTY) {
         count++;
       }
-
-      this->m_grid[i * mapColumns + j] = this->m_grid[i * mapColumns + j];
     }
 
-    if (count < mapColumns) {
+    if(count == m_numberColumns) {
+      this->deleteLine(i);
       --k;
     }
   }
 }
 
-void Grid::deleteLine() {
-
+void Grid::deleteLine(int index) {
+  for (int i = index; i > 0; --i) {
+    for(int j = 0; j < m_numberColumns; ++j) {
+      this->m_grid[i * m_numberColumns + j] = this->m_grid[(i-1)*m_numberColumns + j];
+    }
+  }
+  
 }
 
 int Grid::getFromIndex(int index) {
   return this->m_grid[index];
 }
 
-void Grid::addTetromnino(Tetromino* tetromino) {
+void Grid::addTetromino(Tetromino* tetromino) {
   
   for(int i = 0; i < numberOfBlocks; ++i) {
     this->m_grid[tetromino->getPositionAtIndex(i).y * m_numberColumns + tetromino->getPositionAtIndex(i).x] = tetromino->getType();
   }
+
+  this->checkLine();
 }
 
 Grid::~Grid() {

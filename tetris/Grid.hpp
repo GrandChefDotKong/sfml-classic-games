@@ -15,10 +15,10 @@
       Grid(int numberLines, int numberColumns);
       
       void checkLine();
-      void deleteLine();
+      void deleteLine(int index);
 
       int getFromIndex(int index);
-      void addTetromnino(Tetromino* tetromino);     
+      void addTetromino(Tetromino* tetromino);     
 
       virtual void update();
       virtual void draw(sf::RenderWindow* window);

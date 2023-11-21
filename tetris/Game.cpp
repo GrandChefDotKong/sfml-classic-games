@@ -27,7 +27,7 @@ void Game::start() {
 void Game::update() {
 
   sf::Clock clock;
-  float timer = 0, delay = 0.12;
+  float timer = 0, delay = 0.16;
   bool keyPressed(false);
   Movement direction = Movement::IDDLE;
   
@@ -70,7 +70,7 @@ void Game::update() {
       if(this->checKCollision()) {
         
         this->m_currentTetromino->returnPreviousPosition();
-        this->m_grid->addTetromnino(this->m_currentTetromino);
+        this->m_grid->addTetromino(this->m_currentTetromino);
 
         this->m_grid->checkLine();
         this->generateNewTetromino();  
@@ -101,7 +101,7 @@ bool Game::checKCollision() {
       return true;
     }
     if (this->m_grid->getFromIndex(this->m_currentTetromino->getPositionAtIndex(i).y * mapColumns +
-      this->m_currentTetromino->getPositionAtIndex(i).x)) {
+      this->m_currentTetromino->getPositionAtIndex(i).x) != EMPTY) {
       return true;
     }
   }
@@ -111,12 +111,12 @@ bool Game::checKCollision() {
 
 void Game::generateNewTetromino() {
 
-  TetrominoType random = TetrominoType(rand() % 7);
+  TetrominoType random =  TetrominoType(rand() % 7);
   this->m_currentTetromino = new Tetromino(random);
 }
 
 void Game::draw() {
-    m_window->clear(sf::Color::White);
+    m_window->clear(sf::Color(64, 64, 64));
 
     this->m_grid->draw(this->m_window);
     this->m_currentTetromino->draw(this->m_window);

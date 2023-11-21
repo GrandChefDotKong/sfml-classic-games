@@ -11,13 +11,13 @@
   };
 
   sf::Color Tetromino::tetrominoColor[numberOfTetromino] = {
-    sf::Color::Blue,
-    sf::Color::Red,
-    sf::Color::Green,
-    sf::Color::Yellow,
-    sf::Color::Magenta,
     sf::Color::Cyan,
-    sf::Color::White
+    sf::Color::Yellow,
+    sf::Color(102, 51, 153),
+    sf::Color::Blue,
+    sf::Color(255, 102, 0),
+    sf::Color::Green,
+    sf::Color::Red
   };
   
   Tetromino::Tetromino(TetrominoType type): m_type(type) {
@@ -82,7 +82,7 @@
       block.setPosition(this->m_position[i].x * blockSize, this->m_position[i].y * blockSize);
       block.setFillColor(Tetromino::tetrominoColor[this->m_type]);
       block.setOutlineThickness(1.f);
-      block.setOutlineColor(sf::Color::Black);
+      block.setOutlineColor(sf::Color::White);
 
       window->draw(block);
     }
