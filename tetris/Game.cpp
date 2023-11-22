@@ -27,7 +27,7 @@ void Game::start() {
 void Game::update() {
 
   sf::Clock clock;
-  float timer = 0, delay = 0.16;
+  float timer = 0, delay = 0.3;
   bool keyPressed(false);
   Movement direction = Movement::IDDLE;
   
@@ -41,7 +41,7 @@ void Game::update() {
 
     while (m_window->pollEvent(event)) {
       if (event.type == sf::Event::Closed) {
-        this->stop();
+        this->m_isRunning = false;
       }
 
       if(event.type == sf::Event::KeyPressed) {
@@ -70,9 +70,11 @@ void Game::update() {
       if(this->checKCollision()) {
         
         this->m_currentTetromino->returnPreviousPosition();
-        this->m_grid->addTetromino(this->m_currentTetromino);
+        if(!this->m_grid->addTetromino(this->m_currentTetromino)) {
+          this->m_isRunning = false;
+          std::cout << "GAME OVER !" << std::endl;
+        }
 
-        this->m_grid->checkLine();
         this->generateNewTetromino();  
       }
 
@@ -91,15 +93,22 @@ void Game::update() {
 
     this->draw();
   }
+
+  this->stop();
 }
 
 bool Game::checKCollision() {
   for (int i = 0; i < numberOfBlocks; ++i) {
     if (this->m_currentTetromino->getPositionAtIndex(i).x < 0 || 
-    this->m_currentTetromino->getPositionAtIndex(i).x >= mapColumns || 
-    this->m_currentTetromino->getPositionAtIndex(i).y >= mapLines) {
+    this->m_currentTetromino->getPositionAtIndex(i).x > mapColumns || 
+    this->m_currentTetromino->getPositionAtIndex(i).y > mapLines) {
       return true;
     }
+
+    if(this->m_currentTetromino->getPositionAtIndex(i).y < 0) {
+      continue;
+    }
+
     if (this->m_grid->getFromIndex(this->m_currentTetromino->getPositionAtIndex(i).y * mapColumns +
       this->m_currentTetromino->getPositionAtIndex(i).x) != EMPTY) {
       return true;
@@ -125,7 +134,6 @@ void Game::draw() {
 }
 
 void Game::stop() {
-    m_isRunning = false;
     m_window->close();
     std::cout << "game ended : OK !" << std::endl;
 }

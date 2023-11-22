@@ -1,27 +1,13 @@
 #ifndef TETROMINO_HPP
 #define TETROMINO_HPP
 
-  #include <map>
-  #include <string>
-  #include <iostream>
-  #include <SFML/Graphics.hpp>
-  #include <utility>
-  
-  enum TetrominoType { I, O, T, J, L, S, Z };
-  enum Movement { LEFT = -1, IDDLE, RIGHT = 1, DOWN, ROTATE };
-
-  const int EMPTY = -1;
-  const int numberOfBlocks = 4;
-  const int numberOfTetromino = 7;
-  const int mapLines = 20;
-  const int mapColumns = 10;
-  const int blockSize = 32;
+  #include "settings.hpp"
 
   class Tetromino {
 
     public:
-      static int tetrominoCollection[numberOfTetromino][numberOfBlocks];
-      static sf::Color tetrominoColor[numberOfTetromino];
+      static sf::Vector2i tetrominoCollection[numberOfTetromino][numberOfBlocks];
+      static sf::Color tetrominoColors[numberOfTetromino];
 
       Tetromino(TetrominoType type);
 
@@ -30,15 +16,15 @@
 
       sf::Vector2i getPositionAtIndex(int index);
       TetrominoType getType();
-      void returnPreviousPosition();
 
       virtual void update(Movement direction);
       virtual void draw(sf::RenderWindow* window);
+      void returnPreviousPosition();
       virtual ~Tetromino(); 
 
     private:
       TetrominoType m_type;
-      sf::Vector2i m_position[numberOfBlocks];
+      sf::Vector2i m_blocks[numberOfBlocks];
       sf::Vector2i m_previousPosition[numberOfBlocks];
   };
 

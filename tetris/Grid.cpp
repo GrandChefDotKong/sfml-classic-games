@@ -44,7 +44,7 @@ void Grid::draw(sf::RenderWindow* window) {
       sf::RectangleShape block(sf::Vector2f(blockSize, blockSize));
 
       block.setPosition(j * blockSize, i * blockSize);
-      block.setFillColor(Tetromino::tetrominoColor[this->m_grid[i * m_numberColumns + j]]);
+      block.setFillColor(Tetromino::tetrominoColors[this->m_grid[i * m_numberColumns + j]]);
       block.setOutlineThickness(1.f);
       block.setOutlineColor(sf::Color::White);
       window->draw(block);
@@ -84,13 +84,19 @@ int Grid::getFromIndex(int index) {
   return this->m_grid[index];
 }
 
-void Grid::addTetromino(Tetromino* tetromino) {
+bool Grid::addTetromino(Tetromino* tetromino) {
   
   for(int i = 0; i < numberOfBlocks; ++i) {
+    if(tetromino->getPositionAtIndex(i).y < 0) {
+      return false;
+    }
+
     this->m_grid[tetromino->getPositionAtIndex(i).y * m_numberColumns + tetromino->getPositionAtIndex(i).x] = tetromino->getType();
   }
 
   this->checkLine();
+
+  return true;
 }
 
 Grid::~Grid() {

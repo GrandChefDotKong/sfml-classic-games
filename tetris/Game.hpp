@@ -1,11 +1,6 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
-  #include <map>
-  #include <string>
-  #include <iostream>
-  #include <SFML/Graphics.hpp>
-  #include "Tetromino.hpp"
   #include "Grid.hpp"
 
   class Game {
