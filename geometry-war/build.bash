@@ -1,0 +1,1 @@
+g++ *.cpp -o geometry-wars -lsfml-graphics -lsfml-window -lsfml-system

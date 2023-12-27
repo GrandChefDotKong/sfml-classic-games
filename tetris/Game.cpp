@@ -100,8 +100,8 @@ void Game::update() {
 bool Game::checKCollision() {
   for (int i = 0; i < numberOfBlocks; ++i) {
     if (this->m_currentTetromino->getPositionAtIndex(i).x < 0 || 
-    this->m_currentTetromino->getPositionAtIndex(i).x > mapColumns || 
-    this->m_currentTetromino->getPositionAtIndex(i).y > mapLines) {
+    this->m_currentTetromino->getPositionAtIndex(i).x >= mapColumns || 
+    this->m_currentTetromino->getPositionAtIndex(i).y >= mapLines) {
       return true;
     }
 
@@ -125,7 +125,7 @@ void Game::generateNewTetromino() {
 }
 
 void Game::draw() {
-    m_window->clear(sf::Color(64, 64, 64));
+    m_window->clear(sf::Color(127, 127, 127));
 
     this->m_grid->draw(this->m_window);
     this->m_currentTetromino->draw(this->m_window);

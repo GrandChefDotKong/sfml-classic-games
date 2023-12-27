@@ -53,9 +53,8 @@ void Grid::draw(sf::RenderWindow* window) {
 }
 
 void Grid::checkLine() {
-  int k = m_numberLines - 1;
 
-  for (int i = k; i > 0; --i) {
+  for (int i = m_numberLines -1; i > 0; --i) {
     int count = 0;
 
     for (int j = 0; j < m_numberColumns; ++j) {
@@ -66,7 +65,7 @@ void Grid::checkLine() {
 
     if(count == m_numberColumns) {
       this->deleteLine(i);
-      --k;
+      ++i;
     }
   }
 }
