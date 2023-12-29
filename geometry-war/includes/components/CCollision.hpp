@@ -1,5 +1,5 @@
 #pragma once
 
 struct CCollision {
-  float radius;
+  float radius = 0;
 };

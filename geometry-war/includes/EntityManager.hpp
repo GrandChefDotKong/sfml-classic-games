@@ -3,19 +3,26 @@
 #include <map>
 #include "Entity.hpp"
 
+typedef std::vector<Entity*> EntityVec;
+typedef std::map<std::string, EntityVec> EntityMap;
+
 class EntityManager {
  protected:
-  std::vector<Entity> m_entities;
-  std::map<std::string, Entity> m_entityMap;
-  std::vector<Entity> m_toAdd;
+  EntityVec m_entities;
+  EntityMap m_entitiesMap;
+  EntityVec m_toAdd;
+  size_t m_totalEntities = 0;
+
+  void removeDeadEntities(EntityVec& vec);
 
  public:
   EntityManager(/* args */);
   void init();
   void update();
-  void addEntities();
-  std::vector<Entity>& getEntities();
-
+  Entity* addEntities(const std::string& tag);
+  EntityVec& getEntities();
+  EntityVec& getEntities(const std::string& tag);
+  
   ~EntityManager();
 };
 

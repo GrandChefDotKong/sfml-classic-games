@@ -1,6 +1,6 @@
 #pragma once
 
 struct CScore {
-  int score;
+  int score = 0;
 };
  

@@ -7,24 +7,27 @@
 #include "components/CLifespan.hpp"
 #include "components/CShape.hpp"
 
-
 class Entity {
+ friend class EntityManager;
+
  protected:
   std::string m_tag;
   bool m_active;
   size_t m_id;
   
-  CTransform* CTransform;
-  CShape* cShape;
-  CCollision* cCollision;
-  CInput* cInput;
-  CScore* cScore;
-  CLifespan* cLifespan;
+  Entity(const std::string& tag, size_t id);
 
  public:
+  CTransform* cTransform = nullptr;
+  CShape* cShape = nullptr;
+  CCollision* cCollision = nullptr;
+  CInput* cInput = nullptr;
+  CScore* cScore = nullptr;
+  CLifespan* cLifespan = nullptr;
+
   void destroy();
   bool isActive();
-  std::string getTag();
-  size_t getId();
-
+  const std::string& getTag() const;
+  const size_t getId() const;
+  ~Entity();
 };
